@@ -2,8 +2,11 @@ import random
 import time
 import os
 import pandas as pd
+from pathlib import Path
 
-text_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\free_recall\words.txt"
+base_dir = Path(__file__).resolve().parent
+
+text_path = base_dir / "words.txt"
 num_words = 8
 num_runs = 20
 show_time = 2.0
@@ -52,8 +55,8 @@ for run in range(1, num_runs + 1):
 
 df = pd.DataFrame(results)
 
-name = r"\free_recall_runs{runs}_words{words}_".format(runs=num_runs, words=num_words)
-save_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\free_recall" + name + r"{i}.csv"
+name = f"free_recall_runs{num_runs}_words{num_words}_"
+save_path = base_dir / f"{name}{{i}}.csv"
 
 i = 0
 while os.path.exists(save_path.format(i = i)):
