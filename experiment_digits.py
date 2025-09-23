@@ -34,14 +34,6 @@ def do_working_memory_task(duration):
     time.sleep(duration)
     print("Task over.")
 
-# Function for articulatory suppression
-def instruct_articulatory_suppression():
-    print("During the retention period, please repeat 'tah-dah-tah-dah' out loud continuously.")
-
-# Function for finger tapping
-def instruct_finger_tapping():
-    print("During the retention period, please tap your fingers continuously.")
-
 # Function for free recall
 def free_recall(trial_num, seq_length, rate, with_pause=False, pause_duration=10, with_wm_task=False, wm_task_duration=10, allow_repeats=True):
     sequence = generate_sequence(seq_length, allow_repeats)
@@ -77,21 +69,15 @@ def free_recall(trial_num, seq_length, rate, with_pause=False, pause_duration=10
     }
 
 # Function for serial recall
-def serial_recall(trial_num, seq_length, rate, chunk_size=1, with_suppression=False, suppression_type=None, retention_duration=5, allow_repeats=False):
+def serial_recall(trial_num, seq_length, rate, chunk_size=1, retention_duration=5, allow_repeats=False):
     sequence = generate_sequence(seq_length, allow_repeats)
     
     # For chunking
     if chunk_size > 1:
-        chunks = [' '.join(sequence[i:i+chunk_size]) for i in range(0, len(sequence), chunk_size)]
+        chunks = [''.join(sequence[i:i+chunk_size]) for i in range(0, len(sequence), chunk_size)]
         present_sequence(chunks, rate)
     else:
         present_sequence(sequence, rate)
-    
-    if with_suppression:
-        if suppression_type == 'articulatory':
-            instruct_articulatory_suppression()
-        elif suppression_type == 'tapping':
-            instruct_finger_tapping()
     
     time.sleep(retention_duration)
     
@@ -158,10 +144,10 @@ def main():
         
         exp_type = 'free_recall' if choice == '1' else 'serial_recall'
         
-        num_trials = int(input("Number of trials (at least 20): ") or 20)
-        seq_length = int(input("Sequence length: ") or (15 if exp_type == 'free_recall' else 7))
+        num_trials = 20#int(input("Number of trials (at least 20): ") or 20)
+        seq_length = 8#int(input("Sequence length: ") or (15 if exp_type == 'free_recall' else 7))
         rate = float(input("Presentation rate (seconds per item): ") or 1.0)
-        allow_repeats = input("Allow repeats in sequence? (y/n): ").lower() == 'y'
+        allow_repeats = "y"#input("Allow repeats in sequence? (y/n): ").lower() == 'y'
         
         kwargs = {
             'seq_length': seq_length,
@@ -185,12 +171,6 @@ def main():
         elif exp_type == 'serial_recall':
             chunk_size = int(input("Chunk size (1 for no chunking): ") or 1)
             kwargs['chunk_size'] = chunk_size
-            
-            with_suppression = input("Add suppression during retention? (y/n): ").lower() == 'y'
-            if with_suppression:
-                supp_type = input("Type (articulatory/tapping): ").strip()
-                kwargs['with_suppression'] = True
-                kwargs['suppression_type'] = supp_type
             
             retention_duration = float(input("Retention duration (seconds): ") or 5)
             kwargs['retention_duration'] = retention_duration

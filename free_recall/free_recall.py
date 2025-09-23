@@ -4,26 +4,32 @@ import os
 import pandas as pd
 
 text_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\free_recall\words.txt"
-num_words = 10
-num_runs = 1
-show_time = 8.0
+num_words = 8
+num_runs = 20
+show_time = 2.0
 
 word_pool = open(text_path, "r").read().replace("\n", "").replace(" ", "").split(",")
 
 results = []
 
-for run in range(1, num_runs + 1):
-    word_list = random.sample(word_pool, num_words)
-    
-    print(f"Run {run}/{num_runs}")
-    print(word_list)
-    time.sleep(show_time)
-
+def clr():
     if os.name == "nt":
         os.system("cls")
     else:
         os.system("clear")
 
+for run in range(1, num_runs + 1):
+    random.shuffle(word_pool)
+    word_list = word_pool[:num_words]
+    
+    for word in word_list:
+        clr()
+        print(f"Run {run}/{num_runs}")
+        print(word, end="", flush=True)
+        time.sleep(show_time)
+
+    clr()
+    print(f"Run {run}/{num_runs}")
     recalled = input("Type all the words you remember, separated by spaces:\n").lower().split()
 
     correct = [w for w in recalled if w in word_list]
