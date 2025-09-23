@@ -9,7 +9,7 @@ base_dir = Path(__file__).resolve().parent
 text_path = base_dir / "words.txt"
 num_words = 8
 num_runs = 20
-show_time = 0.5
+show_time = 4
 
 word_pool = open(text_path, "r").read().replace("\n", "").replace(" ", "").split(",")
 
