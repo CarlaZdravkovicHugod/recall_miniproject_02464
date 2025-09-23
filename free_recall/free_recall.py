@@ -9,7 +9,17 @@ base_dir = Path(__file__).resolve().parent
 text_path = base_dir / "words.txt"
 num_words = 8
 num_runs = 20
-show_time = 0.5
+show_time = 2
+
+# Working memory task options
+use_working_memory_task_input = input("Add working memory task between presentation and recall? (y/n): ").lower().strip()
+use_working_memory_task = use_working_memory_task_input == 'y'
+wm_task_duration = 10  # Duration of working memory task in seconds
+
+if use_working_memory_task:
+    wm_duration_input = input(f"Working memory task duration in seconds (default {wm_task_duration}): ").strip()
+    if wm_duration_input:
+        wm_task_duration = float(wm_duration_input)
 
 word_pool = open(text_path, "r").read().replace("\n", "").replace(" ", "").split(",")
 
@@ -20,6 +30,21 @@ def clr():
         os.system("cls")
     else:
         os.system("clear")
+
+def do_working_memory_task(duration):
+    """Working memory task: Count backwards from a random number by 3s"""
+    start_number = random.randint(150, 250)
+    print(f"Working memory task:")
+    print(f"Count backwards from {start_number} by 3s out loud.")
+    print(f"Continue counting for {duration} seconds...")
+    
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        time.sleep(0.1)
+    
+    print("Time's up!")
+    time.sleep(1)  # Brief pause to show "Time's up!" message
+    clr()
 
 for run in range(1, num_runs + 1):
     random.shuffle(word_pool)
@@ -33,6 +58,12 @@ for run in range(1, num_runs + 1):
 
     clr()
     print(f"Run {run}/{num_runs}")
+    
+    # Add working memory task if enabled
+    if use_working_memory_task:
+        do_working_memory_task(wm_task_duration)
+        print(f"Run {run}/{num_runs}")
+    
     recalled = input("Type all the words you remember, separated by spaces:\n").lower().split()
 
     correct = [w for w in recalled if w in word_list]
@@ -55,7 +86,9 @@ for run in range(1, num_runs + 1):
 
 df = pd.DataFrame(results)
 
-name = f"free_recall_runs{num_runs}_words{num_words}_"
+# Create filename that indicates if working memory task was used
+wm_suffix = f"_wm{int(wm_task_duration)}s" if use_working_memory_task else "_nowm"
+name = f"free_recall_runs{num_runs}_words{num_words}{wm_suffix}_"
 
 i = 0
 save_path = base_dir / f"{name}{i}.csv"
