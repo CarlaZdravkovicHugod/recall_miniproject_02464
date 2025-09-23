@@ -3,10 +3,10 @@ import time
 import os
 import pandas as pd
 
-text_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\words.txt"
+text_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\free_recall\words.txt"
 num_words = 10
-num_runs = 20
-show_time = 5.0
+num_runs = 1
+show_time = 8.0
 
 word_pool = open(text_path, "r").read().replace("\n", "").replace(" ", "").split(",")
 
@@ -41,12 +41,18 @@ for run in range(1, num_runs + 1):
         "correct_count": len(set(correct)),
         "missed_count": len(missed)
     })
+    
+    time.sleep(2.0)
 
-# Convert to DataFrame
 df = pd.DataFrame(results)
 
-# Save to CSV
-save_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\recall_results.csv"
-df.to_csv(save_path, index=False)
+name = r"\free_recall_runs{runs}_words{words}_".format(runs=num_runs, words=num_words)
+save_path = r"C:\Users\alexa\Documents\GitHub\recall_miniproject_02464\free_recall" + name + r"{i}.csv"
 
-print(f"\nAll runs complete. Results saved to {save_path}")
+i = 0
+while os.path.exists(save_path.format(i = i)):
+    i += 1
+
+df.to_csv(save_path.format(i = i), index=False)
+
+print(f"\nAll runs complete. Results saved to {save_path.format(i = i)}")
