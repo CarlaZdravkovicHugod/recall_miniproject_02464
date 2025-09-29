@@ -28,14 +28,31 @@ def do_pause(duration):
     print(f"Pausing for {duration} seconds...")
     time.sleep(duration)
 
+# Function to clear screen
+def clr():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
 # Function for working memory task (e.g., count backwards)
 def do_working_memory_task(duration):
-    print("Perform this task: Count backwards from 100 by 3s out loud for the next few seconds.")
-    time.sleep(duration)
-    print("Task over.")
+    """Working memory task: Count backwards from a random number by 3s"""
+    start_number = random.randint(150, 250)
+    print(f"Working memory task:")
+    print(f"Count backwards from {start_number} by 3s out loud.")
+    print(f"Continue counting for {duration} seconds...")
+    
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        time.sleep(0.1)
+    
+    print("Time's up!")
+    time.sleep(1)  # Brief pause to show "Time's up!" message
+    clr()
 
 # Function for free recall
-def free_recall(trial_num, seq_length, rate, with_pause=False, pause_duration=10, with_wm_task=False, wm_task_duration=10, allow_repeats=True):
+def free_recall(trial_num, seq_length, rate, with_pause=False, pause_duration=10, with_wm_task=True, wm_task_duration=10, allow_repeats=True):
     sequence = generate_sequence(seq_length, allow_repeats)
     present_sequence(sequence, rate)
     
@@ -69,7 +86,7 @@ def free_recall(trial_num, seq_length, rate, with_pause=False, pause_duration=10
     }
 
 # Function for serial recall
-def serial_recall(trial_num, seq_length, rate, chunk_size=1, retention_duration=5, allow_repeats=False):
+def serial_recall(trial_num, seq_length, rate, chunk_size=1, retention_duration=5, allow_repeats=False, with_wm_task=False, wm_task_duration=10):
     sequence = generate_sequence(seq_length, allow_repeats)
     
     # For chunking
@@ -79,7 +96,11 @@ def serial_recall(trial_num, seq_length, rate, chunk_size=1, retention_duration=
     else:
         present_sequence(sequence, rate)
     
-    time.sleep(retention_duration)
+    # Add working memory task if enabled
+    if with_wm_task:
+        do_working_memory_task(wm_task_duration)
+    else:
+        time.sleep(retention_duration)
     
     print("Recall the digits in the order presented. Enter them separated by spaces:")
     response = input().strip().split()
@@ -172,8 +193,14 @@ def main():
             chunk_size = int(input("Chunk size (1 for no chunking): ") or 1)
             kwargs['chunk_size'] = chunk_size
             
-            retention_duration = float(input("Retention duration (seconds): ") or 5)
-            kwargs['retention_duration'] = retention_duration
+            with_wm_task = input("Add working memory task after sequence? (y/n): ").lower() == 'y'
+            if with_wm_task:
+                wm_task_duration = float(input("WM task duration (seconds): ") or 10)
+                kwargs['with_wm_task'] = True
+                kwargs['wm_task_duration'] = wm_task_duration
+            else:
+                retention_duration = float(input("Retention duration (seconds): ") or 5)
+                kwargs['retention_duration'] = retention_duration
         
         run_experiment(exp_type, num_trials, **kwargs)
 
