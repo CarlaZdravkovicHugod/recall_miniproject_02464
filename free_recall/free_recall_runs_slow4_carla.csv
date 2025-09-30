@@ -16,6 +16,6 @@ run,shown_words,recalled_words,correct_count,missed_count
 15,"door,bear,soup,room,rock,boy,year,warm","door,bearsoupdoor,besr,soup,room,door,beadoor,bear,soup,room,rock,boy,warm",7,1
 16,"word,moon,note,heat,shop,hill,warm,gift","word,word,moon",2,6
 17,"bear,rain,room,horn,sand,run,week,road","road,week,run,rain,room,sand",6,8
-18,"walk,cold,boy,room,run,song,bear,horn","",0,8
+18,"walk,cold,boy,room,run,song,bear,horn","missing",0,8
 19,"hand,sun,note,fire,bird,heat,face,horn","horn,bird,sun,fire,heat,face,note",7,1
 20,"ship,star,pen,page,home,city,wall,pink","wall,pink,ship,pen,star,page,home",7,1

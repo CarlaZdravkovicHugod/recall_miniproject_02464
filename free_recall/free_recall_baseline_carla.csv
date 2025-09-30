@@ -16,6 +16,6 @@ run,shown_words,recalled_words,correct_count,missed_count
 15,"door,hour,sun,egg,green,wolf,lion,card","green,card,eggs,wolf,lion,sun,door",6,2
 16,"roof,port,ring,king,song,page,green,ball","roof,port,green,ring,king,page",6,2
 17,"note,eyes,hot,wood,bird,run,city,ring","note,hot,eyes,wood,bird,run,city,ring",8,0
-18,"run,moon,sun,door,red,coin,bear,rock","runmoonsundoorredcoinbearrocksun,bear,rock,moon,coin",4,4
+18,"run,moon,sun,door,red,coin,bear,rock","bear,rock,moon,coin",4,4
 19,"wolf,swim,star,road,run,star,game,fish","fish,star,star,game,wolf,run,swim",6,1
 20,"milk,bike,hour,cool,year,ship,car,band","band,bike,hour,cool,milk,year,ship",7,1

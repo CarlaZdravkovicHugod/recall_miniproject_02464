@@ -10,7 +10,7 @@ run,shown_words,recalled_words,correct_count,missed_count
 9,"lord,boy,wind,fish,swim,door,eyes,boat","swim,fish,boy,lord,door,wind",6,2
 10,"roof,bean,soup,bike,band,town,gift,road","gift,soup,bean,bike,road,roof",6,2
 11,"eyes,bell,sun,song,play,girl,snow,corn","sun,song,bell,girl,eyes",5,3
-12,"year,wall,snow,gold,girl,park,star,queen","[cgirl,queen,snow",2,6
+12,"year,wall,snow,gold,girl,park,star,queen","girl,queen,snow",2,6
 13,"time,eyes,gold,queen,dock,snow,foot,pen","gold,queen,foot,snow,dock,time,year",6,2
 14,"girl,run,boy,dog,warm,ship,rice,bean","boy,girl,dog,warm,ship,rice,run",7,1
 15,"corn,gift,cool,moon,day,blue,green,rain","blue,green,rain,cool,moon",5,3
